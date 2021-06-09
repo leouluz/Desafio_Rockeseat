@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
@@ -11,18 +11,32 @@ interface Task {
 }
 
 export function Home() {
-  // const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
+  //DONE - add new task if it's not empty
   function handleAddTask(newTaskTitle: string) {
-    //TODO - add new task if it's not empty
-  }
+    const newTask = {
+      id: new Date().getTime(),
+      title: newTaskTitle,
+      done: false,
+    };
+    if (newTaskTitle) setTasks([...tasks, newTask]);
+  };
 
+  //DONE - mark task as done if exists
   function handleMarkTaskAsDone(id: number) {
-    //TODO - mark task as done if exists
+    const taskToDo = tasks.find(task => task.id === id);
+    if (!!taskToDo) {
+      taskToDo.done === true ? taskToDo.done = false : taskToDo.done = true;
+      const oldTasks = tasks.filter(task => task.id !== id);
+      setTasks([...oldTasks, taskToDo])
+    }
   }
 
+  //DONE - remove task from state
   function handleRemoveTask(id: number) {
-    //TODO - remove task from state
+    const updatedTasks = tasks.filter(task => task.id !== id);
+    setTasks(updatedTasks);
   }
 
   return (
